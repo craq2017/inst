@@ -1,0 +1,47 @@
+$TTL 86400
+@   IN  SOA     node05.aq.lab root.localhost (
+2014112511  ;Serial
+180         ;Refresh
+1800        ;Retry
+604800      ;Expire
+86400       ;Minimum TTL
+)
+;Name Server Information
+@      IN  NS      node05.aq.lab.
+;IP address of Name Server
+primary IN  A          172.16.90.7       
+;A - Record HostName To Ip Address
+node01     IN  A       172.16.90.3
+node02     IN  A       172.16.90.4
+node03     IN  A       172.16.90.5
+node04     IN  A       172.16.90.6 
+node05     IN  A       172.16.90.7
+manager    IN  A       172.16.90.10
+satellite           IN   A   172.16.90.40
+tower   	    IN   A    172.16.90.100
+cfme                IN   A    172.16.90.222
+master1             IN   A    172.16.90.200
+master2             IN   A    172.16.90.201
+master3             IN   A    172.16.90.202
+infra1              IN   A    172.16.90.203
+infra2              IN   A    172.16.90.204
+app1                IN   A    172.16.90.205
+app2                IN   A    172.16.90.206
+app3                IN   A    172.16.90.207
+lb                  IN   A    172.16.90.208
+openshift           IN   A    172.16.90.208
+dns                 IN   A    172.16.90.210
+api-openshift       IN   A  172.16.90.208
+*.apps.openshift  IN   A    172.16.90.203
+*.apps.openshift  IN   A    172.16.90.204
+gl-node1          IN   A    172.16.90.211
+gl-node2          IN   A    172.16.90.212
+gl-node3          IN   A    172.16.90.213
+gl-node4          IN   A    172.16.90.214
+gl-node5          IN   A    172.16.90.215
+gl-node6          IN   A    172.16.90.216
+nfs               IN   A    172.16.90.208
+aq-gw             IN   A    172.16.90.81
+;*.apps-openshift-demo  IN   A    172.16.90.164
+;CNAME record
+;www     IN CNAME        www.node01.aq.lab.

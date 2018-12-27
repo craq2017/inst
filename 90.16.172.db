@@ -1,0 +1,44 @@
+$TTL 86400
+@   IN  SOA     node05.aq.lab. root.aq.lab. (
+2014112511  ;Serial
+3600        ;Refresh
+1800        ;Retry
+604800      ;Expire
+86400       ;Minimum TTL
+)
+;Name Server Information
+@ IN  NS      node05.aq.lab.
+;Reverse lookup for Name Server
+7        IN  PTR     node05.aq.lab.
+;PTR Record IP address to HostName
+3       IN  PTR     node01.aq.lab.
+4       IN  PTR     node02.aq.lab.
+5       IN  PTR     node03.aq.lab.
+6       IN  PTR     node04.aq.lab.
+7	IN  PTR	    node05.aq.lab	
+10      IN  PTR     manager.aq.lab.
+30      IN  PTR     cloudforms.aq.lab.
+40      IN  PTR     satellite.aq.lab.
+7       IN  PTR     node05.aq.lab.
+100	IN  PTR     tower.aq.lab.		
+222     IN  PTR     cfme.aq.lab.
+200     IN  PTR     master1.aq.lab.
+201     IN  PTR     master2.aq.lab.
+202     IN  PTR     master3.aq.lab.
+203     IN  PTR     infra1.aq.lab.
+204     IN  PTR     infra2.aq.lab.
+205     IN  PTR     app1.aq.lab.
+206     IN  PTR     app2.aq.lab.
+207     IN  PTR     app3.aq.lab.
+208     IN  PTR     lb.aq.lab. 
+208     IN  PTR     openshift.aq.lab.      
+208     IN  PTR     api-openshift.aq.lab. 
+210     IN  PTR     dns.aq.lab.
+211     IN  PTR     gl-node1.aq.lab.
+212     IN  PTR     gl-node2.aq.lab.
+213     IN  PTR     gl-node3.aq.lab.
+214     IN  PTR     gl-node4.aq.lab.
+215     IN  PTR     gl-node5.aq.lab.
+216     IN  PTR     gl-node6.aq.lab.
+208     IN  PTR     nfs.aq.lab.
+81      IN  PTR     aq-gw.aq.lab.
