@@ -5,6 +5,6 @@
   - name: Register and subscribe hosts
     redhat_subscription:
       state: present
-      username: pmamontov@aq.ru
-      password: "!gloomy1981AQ"
+      username: 
+      password: 
       pool_ids: 8a85f98c635f699f016374de92150d75
