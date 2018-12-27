@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  remote_user: root
+  tasks:
+  - name: install base packages
+    become: true
+    yum:
+      name: wget, git, net-tools, bind-utils, yum-utils, iptables-services, bridge-utils, bash-completion, kexec-tools, sos, psacct 
+      state: present
+
+  - name: install openshift-ansible package
+    become: true
+    yum:
+      name: openshift-ansible

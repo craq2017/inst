@@ -1,0 +1,6 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+  - name: Enable OpenShift repos only
+    command: subscription-manager remove --all

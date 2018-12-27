@@ -1,0 +1,138 @@
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+nfs
+glusterfs
+
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+ansible_ssh_user=root
+openshift_override_hostname_check=True
+openshift_master_cluster_method=native
+openshift_disable_check=memory_availability,disk_availability,package_availability
+openshift_deployment_type=openshift-enterprise
+openshift_release=v3.11
+oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
+debug_level=2
+os_firewall_use_firewalld=True
+openshift_install_examples=true
+openshift_clock_enabled=True
+openshift_router_selector='node-role.kubernetes.io/infra=true'
+openshift_registry_selector='node-role.kubernetes.io/infra=true'
+openshift_examples_modify_imagestreams=true
+os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'admin': '$apr1$pQ3QPByH$5BDkrp0m5iclRske.M0m.0'}
+
+openshift_master_default_subdomain=apps.openshift.aq.lab
+openshift_master_cluster_hostname=api-openshift.aq.lab
+openshift_master_cluster_public_hostname=openshift.aq.lab
+
+openshift_storage_glusterfs_is_native=true
+openshift_master_dynamic_provisioning_enabled=True
+
+openshift_enable_unsupported_configurations=true
+
+openshift_cluster_monitoring_operator_install=true
+
+
+openshift_storage_glusterfs_image=registry.access.redhat.com/rhgs3/rhgs-server-rhel7:v3.11
+openshift_storage_glusterfs_block_image=registry.access.redhat.com/rhgs3/rhgs-gluster-block-prov-rhel7:v3.11
+openshift_storage_glusterfs_heketi_image=registry.access.redhat.com/rhgs3/rhgs-volmanager-rhel7:v3.11
+
+
+
+
+# registry
+openshift_hosted_registry_storage_kind=glusterfs
+openshift_hosted_registry_storage_volume_size=60Gi
+openshift_hosted_registry_selector="node-role.kubernetes.io/infra=true"
+
+
+
+# CNS storage cluster
+
+openshift_storage_glusterfs_storageclass=true
+openshift_storage_glusterfs_storageclass_default=false
+openshift_storage_glusterfs_block_deploy=false
+
+
+
+#metrics
+openshift_metrics_install_metrics=true
+openshift_metrics_hawkular_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_metrics_cassandra_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_metrics_heapster_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_metrics_storage_kind=nfs
+openshift_metrics_storage_access_modes=['ReadWriteOnce']
+openshift_metrics_storage_nfs_directory=/exports
+openshift_metrics_storage_nfs_options='*(rw,root_squash)'
+openshift_metrics_storage_volume_name=metrics
+openshift_metrics_storage_volume_size=40Gi
+
+#logging
+openshift_logging_kibana_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_logging_curator_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra": "true"} 
+openshift_logging_install_logging=true
+openshift_logging_es_cluster_size=1
+openshift_logging_storage_kind=nfs
+openshift_logging_storage_access_modes=['ReadWriteOnce']
+openshift_logging_storage_nfs_directory=/exports
+openshift_logging_storage_nfs_options='*(rw,root_squash)'
+openshift_logging_storage_volume_name=logging
+openshift_logging_storage_volume_size=50Gi
+openshift_logging_es_pvc_prefix=logging-es
+openshift_logging_es_pvc_size=50G
+
+#ASB
+ansible_service_broker_install=true
+openshift_hosted_etcd_storage_kind=nfs
+openshift_hosted_etcd_storage_nfs_options="*(rw,root_squash,sync,no_wdelay)"
+openshift_hosted_etcd_storage_nfs_directory=/opt/osev3-etcd 
+openshift_hosted_etcd_storage_volume_name=etcd-vol2 
+openshift_hosted_etcd_storage_access_modes=["ReadWriteOnce"]
+openshift_hosted_etcd_storage_volume_size=1G
+openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
+ansible_service_broker_local_registry_whitelist=['.*-apb$']
+
+
+
+# host group for masters
+[masters]
+master1.aq.lab openshift_ip=172.16.90.200 openshift_hostname=master1.aq.lab
+master2.aq.lab openshift_ip=172.16.90.201 openshift_hostname=master2.aq.lab
+master3.aq.lab openshift_ip=172.16.90.202 openshift_hostname=master3.aq.lab
+
+
+# host group for etcd
+[etcd]
+master1.aq.lab openshift_ip=172.16.90.200 openshift_hostname=master1.aq.lab  
+master2.aq.lab openshift_ip=172.16.90.201 openshift_hostname=master2.aq.lab 
+master3.aq.lab openshift_ip=172.16.90.202 openshift_hostname=master3.aq.lab 
+
+[lb]
+lb.aq.lab containerized=False openshift_ip=172.16.90.208 openshift_hostname=lb.aq.lab
+
+[nfs]
+nfs.aq.lab openshift_ip=172.16.90.208 openshift_hostname=nfs.aq.lab
+
+
+[glusterfs]
+app1.aq.lab glusterfs_devices='["/dev/sdc"]'
+app2.aq.lab glusterfs_devices='["/dev/sdc"]'
+app3.aq.lab glusterfs_devices='["/dev/sdc"]'
+
+[nodes]
+master1.aq.lab openshift_ip=172.16.90.200 openshift_hostname=master1.aq.lab openshift_node_group_name='node-config-master' 
+master2.aq.lab openshift_ip=172.16.90.201 openshift_hostname=master2.aq.lab openshift_node_group_name='node-config-master'
+master3.aq.lab openshift_ip=172.16.90.202 openshift_hostname=master3.aq.lab openshift_node_group_name='node-config-master'
+infra1.aq.lab openshift_ip=172.16.90.203 openshift_hostname=infra1.aq.lab openshift_node_group_name='node-config-infra'
+infra2.aq.lab openshift_ip=172.16.90.204 openshift_hostname=infra2.aq.lab openshift_node_group_name='node-config-infra'
+app1.aq.lab openshift_ip=172.16.90.205 openshift_hostname=app1.aq.lab openshift_node_group_name='node-config-compute'
+app2.aq.lab openshift_ip=172.16.90.206 openshift_hostname=app2.aq.lab openshift_node_group_name='node-config-compute'
+app3.aq.lab openshift_ip=172.16.90.207 openshift_hostname=app3.aq.lab openshift_node_group_name='node-config-compute'
+

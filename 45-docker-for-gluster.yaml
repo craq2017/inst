@@ -1,0 +1,16 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+  
+  - name: install docker
+    yum:
+      name: docker-1.13.1
+      state: present
+
+  
+  - name: configure docker storage
+    command: docker-storage-setup
+
+  - name: start and enable docker
+    service: name=docker state=started enabled=yes
